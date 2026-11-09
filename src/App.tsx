@@ -9,6 +9,10 @@ import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 import { PasswordResetPage } from './pages/PasswordResetPage'
 import { SignupPage } from './pages/SignupPage'
+import { DeveloperDashboard } from './pages/DeveloperDashboard'
+
+function SiteHeader() { return useLocation().pathname === '/dev-dashboard' ? null : <Header /> }
+function SiteFooter() { return useLocation().pathname === '/dev-dashboard' ? null : <Footer /> }
 
 // Login and signup are for signed-out visitors; a signed-in user goes home.
 function GuestOnly({ children }: { children: ReactNode }) {
@@ -50,10 +54,11 @@ export default function App() {
         <div className="flex min-h-dvh flex-col">
           {/* Above the header: the home hero is pulled up under the header and would cover it. */}
           <BootNotice />
-          <Header />
+          <SiteHeader />
           <main className="flex flex-1 flex-col">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/dev-dashboard" element={<DeveloperDashboard />} />
               <Route path="/login" element={<GuestOnly><LoginPage /></GuestOnly>} />
               <Route path="/signup" element={<GuestOnly><SignupPage /></GuestOnly>} />
               <Route path="/password-reset" element={<GuestOnly><PasswordResetPage /></GuestOnly>} />
@@ -61,7 +66,7 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
-          <Footer />
+          <SiteFooter />
         </div>
       </AuthProvider>
     </BrowserRouter>
